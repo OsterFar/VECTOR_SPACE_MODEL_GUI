@@ -114,7 +114,7 @@ def unique(list1,unique_list):
 
 def save(invertedIndex,name) :
   import json 
-  with open('{0}.json'.format(name), 'w') as ij:
+  with open('GUI\{0}.json'.format(name), 'w') as ij:
     json.dump(invertedIndex,ij)
 
   ij.close();
@@ -150,7 +150,7 @@ MainIndex()
 """## Reading from Disk"""
 
 import json
-with open("invertedIndex.json", 'r') as ii:
+with open("GUI\invertedIndex.json", 'r') as ii:
     Inverted_index = json.load(ii)
 
 """## VECTOR SPACE MODEL
@@ -250,7 +250,7 @@ def MainVSM(tokens,uniquelist) :
  
   uniquelist.sort()
   print(uniquelist)
-  save(uniquelist,"UniqueList")
+  save(uniquelist,"PUniqueList")
   VSM  = calTermFrequency(tokens,uniquelist)
   save(VSM,"TF")
   df = DocumentFrequency(VSM , uniquelist)
@@ -266,11 +266,11 @@ global_VSM = MainVSM(Inverted_index,uniquelist)
 """## Query"""
 
 import json
-with open("VSM.json", 'r') as ii:
+with open("GUI\VSM.json", 'r') as ii:
     global_VSM = json.load(ii)
 
 
-with open("UniqueList.json", 'r') as ij:
+with open("GUI\pUniqueList.json", 'r') as ij:
     uniquelist = json.load(ij)
 
 """### Preprocessing """
