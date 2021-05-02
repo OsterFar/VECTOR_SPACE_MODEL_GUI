@@ -192,8 +192,8 @@ def calTermFrequency_query(queryy,uniquelist) :
   for Uword in uniquelist :
     counter = 0 
     counter = queryy.count(Uword)
-    if counter >= 1 :
-      print("yes i am here ")
+    # if counter >= 1 :
+    #   print("yes i am here ")
     #print("here==",Uword,counter,i)
     if query_tf.get('query') == None :
       query_tf.update({('query'):[]})
@@ -346,26 +346,12 @@ def Inputt() :
     query= Convert(querystring)
     return query
 
-#string to list converter
+#========string to list converter=============
 def Convert(string):
     li = list(string.split(" "))
     return li
 
-#Taking input and storing in list
-query = []
-query = Inputt()
-
-##PreProcessing the Query 
-query = PreprocessingQuery(query)
-global_query_TF = calTermFrequency_query(query,uniquelist)
-print(query)
-save(global_query_TF ,"query")
-
-"""## Cosine SIm
-
-#### Magnitude
-"""
-
+#=================cosine Functionality===========
 def magnitude(values) :
   mag = 0
   for i in range(len(values)) :
@@ -382,35 +368,45 @@ def DotProduct(doc,queryy) :
     dotprod = dotprod + doc[i]*queryy[i]
 
   return dotprod
+#Taking input and storing in list
+chalo='y'
+while(chalo=="Y" or chalo=='y') :
+  query = []
+  query = Inputt()
 
-print(uniquelist)
-save(uniquelist,"uni")
+  ##PreProcessing the Query 
+  query = PreprocessingQuery(query)
+  global_query_TF = calTermFrequency_query(query,uniquelist)
+  save(global_query_TF ,"query")
+  save(uniquelist,"uni")
+  """#############  MainRANKING  ################## 
 
-"""####  Main 
+  """
+  # now i have 2 global varible 
+  # i) global_query_TF
+  # ii) global_VSM
+  COS_SIM = {}
+  #storing the magnitude of query as it will use in all doc
+  mag_query = magnitude(global_query_TF['query'])
+  #calculating for each document 
+  for i in range(50) :
+    numerator = DotProduct(global_VSM[str(i+1)],global_query_TF['query'])
+    mag_doc =  magnitude(global_VSM[str(i+1)])
+    denominator = mag_doc * mag_query 
+    try :
+      ans = numerator / denominator
+      COS_SIM.update({'SIMDOC{0}'.format(i+1):ans})
 
-"""
+    except :
+      ans = 0
+    
+  #SIM
+  for i in range(len(COS_SIM)) :
+    
+    val = COS_SIM['SIMDOC{0}'.format(i+1)]
+    if val > 0.005:
+      print(i+1,val)
 
-# now i have 2 global varible 
-# i) global_query_TF
-# ii) global_VSM
-COS_SIM = {}
-#storing the magnitude of query as it will use in all doc
-mag_query = magnitude(global_query_TF['query'])
-print(global_VSM[str(1)])
-#calculating for each document 
-for i in range(50) :
-  numerator = DotProduct(global_VSM[str(i+1)],global_query_TF['query'])
-  mag_doc =  magnitude(global_VSM[str(i+1)])
-  denominator = mag_doc * mag_query 
-  ans = numerator / denominator
-  COS_SIM.update({'SIMDOC{0}'.format(i+1):ans})
-
-
-
-#SIM
-for i in range(len(COS_SIM)) :
+  print("\n\twant to continue?\t Y/y or N/n")
+  chalo = input()
   
-  val = COS_SIM['SIMDOC{0}'.format(i+1)]
-  if val > 0.005:
-    print(i+1,val)
-
