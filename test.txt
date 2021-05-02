@@ -1,0 +1,3 @@
+Query: across adventures 
+Result: 9 20 44 
+Length: 3 

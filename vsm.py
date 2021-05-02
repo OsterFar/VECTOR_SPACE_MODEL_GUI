@@ -426,14 +426,16 @@ while(chalo=="Y" or chalo=='y') :
       print("Not FOUND-OKEY")
     
   #SIM
-  
+  queryResult = []
   print("RANKGING->")
   for i in range(len(COS_SIM)) :
     
     val = COS_SIM['SIMDOC{0}'.format(i+1)]
     if val > 0.005:
-      print(i+1,val)
-
+      #print(i+1,val)
+      queryResult.append(i+1)
+  save(queryResult,"Result")
+  print(queryResult)
   print("\n\twant to continue?\t Y/y or N/n")
   chalo = input()
   
