@@ -133,14 +133,18 @@ import re #regular Expression
 def MainIndex() :
   #breaking string into word and applying caseFolding 
   tokens  = tokenization_caseFoldingg()
-  print(len(tokens))
-  print(tokens)
-  #removingStopWords
-  #tokens = StopWordsRemoval(tokens)
-  print(len(tokens))
+  # print(len(tokens))
+  # print(tokens)
+  # #removingStopWords
+  # #tokens = StopWordsRemoval(tokens)
+  # print(len(tokens))
   invertedIndex = tokens
+  print("StopWordsRemoval->")
   invertedIndex = StopWordsRemoval(invertedIndex)
+  print("Okey")
+  print("lemmatization->")
   invertedIndex = lemmatization(invertedIndex)
+  print("Okey")
   #invertedIndex = stemming(invertedIndex)
   invertedIndex = sortIndex(invertedIndex)
   save(invertedIndex,'invertedIndex')
@@ -215,7 +219,7 @@ def DocumentFrequency(tokens,uniquelist) :
           counter = counter + 1
       
      df.append(counter)
-  print(df)
+  
   df = cal_idf(df,50)
 
   return df
@@ -249,13 +253,19 @@ def MainVSM(tokens,uniquelist) :
     uniquelist = unique(tokens[str(i+1)],uniquelist)
  
   uniquelist.sort()
-  print(uniquelist)
+  
   save(uniquelist,"PUniqueList")
+  print("calTermFrequency->")
   VSM  = calTermFrequency(tokens,uniquelist)
+  print("Okey")
   save(VSM,"TF")
+  print("DocumentFrequency->")
   df = DocumentFrequency(VSM , uniquelist)
+  print("Okey")
+  print("calculateTFIDF->")
   VSM = calculateTFIDF(VSM,uniquelist,df)
-  print(VSM)
+  print("Okey")
+  
   save(VSM,"VSM")
 
   return VSM
@@ -276,9 +286,16 @@ with open("GUI\pUniqueList.json", 'r') as ij:
 """### Preprocessing """
 
 def PreprocessingQuery(queryy) :
+  print("CaseFolding_query->")
   queryy = CaseFolding_query(queryy)
+  print("Okey")
+  print("stopWordsRemoval_query->")
   queryy = stopWordsRemoval_query(queryy)
+  print("Okey")
+  print("lemmatization_query->")
   queryy = lemmatization_query(queryy)
+  print("Okey")
+  
   #queryy = stemming_query(queryy)
   return queryy
 
@@ -387,20 +404,30 @@ while(chalo=="Y" or chalo=='y') :
   # ii) global_VSM
   COS_SIM = {}
   #storing the magnitude of query as it will use in all doc
+  print("magnitudeQuery->")
   mag_query = magnitude(global_query_TF['query'])
+  print("Okey")
   #calculating for each document 
   for i in range(50) :
+    print("DotProduct->")
     numerator = DotProduct(global_VSM[str(i+1)],global_query_TF['query'])
+    print("Okey")
+    print("magnitudeDOC->")
     mag_doc =  magnitude(global_VSM[str(i+1)])
+    print("Okey")
+    print("COSINE_SIM->")
     denominator = mag_doc * mag_query 
     try :
       ans = numerator / denominator
       COS_SIM.update({'SIMDOC{0}'.format(i+1):ans})
-
+      print("OKEY")
     except :
       ans = 0
+      print("Not FOUND-OKEY")
     
   #SIM
+  
+  print("RANKGING->")
   for i in range(len(COS_SIM)) :
     
     val = COS_SIM['SIMDOC{0}'.format(i+1)]
