@@ -10,3 +10,10 @@ tkinter
 <h2> How to Run ??</h2>
 Go to the GUI FOlder and open "GUI_VSM.ipynb" then run each cell by clicking "RUN CELL" || "ENTER+SHIFT" 
 
+<h2>GOOGLE COLLAB::::</h2>
+https://colab.research.google.com/drive/1T4deHJMx122ybXYUXVTZlwhIbG3bAAYo#scrollTo=vdG5lN1syZpI
+
+<h2>GITHUB</h2>
+Using CMD
+https://github.com/OsterFar/VSM_CMD
+
