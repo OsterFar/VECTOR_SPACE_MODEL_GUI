@@ -276,10 +276,19 @@ with open("GUI\pUniqueList.json", 'r') as ij:
 """### Preprocessing """
 
 def PreprocessingQuery(queryy) :
+  queryy = CaseFolding_query(queryy)
   queryy = stopWordsRemoval_query(queryy)
   queryy = lemmatization_query(queryy)
   #queryy = stemming_query(queryy)
   return queryy
+
+def CaseFolding_query(query) :
+  listt= []
+  for words in query :
+    listt.append(words.lower())
+  return listt
+
+
 
 """#### Lemmatization 
 
